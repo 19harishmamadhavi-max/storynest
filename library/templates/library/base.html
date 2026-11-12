@@ -4,20 +4,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#fff9ed">
+    <meta name="theme-color" content="#a9ddff">
     <title>{% block title %}StoryNest{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'library/styles.css' %}">
 </head>
 <body>
+    <div class="sky-decorations" aria-hidden="true">
+        <span class="cloud cloud-one">☁</span>
+        <span class="cloud cloud-two">☁</span>
+        <span class="sky-star star-one">✦</span>
+        <span class="sky-star star-two">✧</span>
+        <span class="sky-bubble bubble-one"></span>
+        <span class="sky-bubble bubble-two"></span>
+        <span class="sky-bubble bubble-three"></span>
+    </div>
     <header class="site-header">
         <a class="brand" href="{% url 'library:home' %}" aria-label="StoryNest home">
             <span class="brand-icon" aria-hidden="true">✦</span> StoryNest
+            <span class="brand-animals" aria-hidden="true">🐰 🐻 🐥 🦊</span>
         </a>
         <span class="header-note">Little stories, big adventures</span>
     </header>
     <main>
         {% block content %}{% endblock %}
     </main>
+    <div class="grass-hills" aria-hidden="true"></div>
     <footer class="site-footer">Made for curious little readers <span aria-hidden="true">♥</span></footer>
+    <script>
+        (() => {
+            const scene = document.querySelector('.welcome-animation');
+            if (!scene) return;
+            const key = 'storynest-welcome-played';
+            const skip = scene.querySelector('.skip-animation');
+            const finish = () => {
+                scene.hidden = true;
+                document.body.classList.add('welcome-finished');
+            };
+            if (sessionStorage.getItem(key) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                finish();
+                return;
+            }
+            sessionStorage.setItem(key, 'true');
+            document.body.classList.add('welcome-running');
+            const timer = window.setTimeout(finish, 3200);
+            skip.addEventListener('click', () => {
+                window.clearTimeout(timer);
+                finish();
+            }, { once: true });
+        })();
+    </script>
 </body>
 </html>

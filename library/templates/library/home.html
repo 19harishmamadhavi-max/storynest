@@ -7,6 +7,15 @@
     <p class="eyebrow">YOUR NEXT ADVENTURE STARTS HERE</p>
     <h1>Once upon a time...</h1>
     <p class="welcome-copy">Find a cozy spot and pick a story to explore!</p>
+    <div class="welcome-animation" hidden aria-label="Welcome to StoryNest">
+        <span class="animation-title">StoryNest</span>
+        <span class="nest" aria-hidden="true">🪺</span>
+        <span class="jumping-animal bunny" aria-hidden="true">🐰</span>
+        <span class="jumping-animal bear" aria-hidden="true">🐻</span>
+        <span class="jumping-animal chick" aria-hidden="true">🐥</span>
+        <span class="jumping-animal fox" aria-hidden="true">🦊</span>
+        <button class="skip-animation" type="button">Skip</button>
+    </div>
 </section>
 
 <section class="library-section" aria-labelledby="stories-heading">
@@ -15,13 +24,22 @@
             <p class="eyebrow">THE STORY SHELF</p>
             <h2 id="stories-heading">Choose a story</h2>
         </div>
-        <span class="story-count">{{ stories|length }} story{{ stories|length|pluralize }}</span>
+        <span class="story-count">{{ stories|length }} stor{{ stories|length|pluralize:"y,ies" }}</span>
     </div>
+
+    <nav class="category-filters" aria-label="Filter stories by category">
+        <a class="filter-button filter-all{% if selected_category == 'all' %} is-selected{% endif %}"
+           href="{% url 'library:home' %}"{% if selected_category == 'all' %} aria-current="page"{% endif %}>All</a>
+        {% for value, label in categories %}
+        <a class="filter-button filter-{{ value }}{% if selected_category == value %} is-selected{% endif %}"
+           href="{% url 'library:home' %}?category={{ value }}"{% if selected_category == value %} aria-current="page"{% endif %}>{{ label }}</a>
+        {% endfor %}
+    </nav>
 
     {% if stories %}
     <div class="story-grid">
         {% for story in stories %}
-        <article class="story-card">
+        <article class="story-card category-{{ story.category }}">
             <a class="story-link" href="{% url 'library:story_detail' story.id %}">
                 {% if story.cover_image %}
                     <img class="story-cover" src="{{ story.cover_image.url }}" alt="Cover for {{ story.title }}">
@@ -29,6 +47,7 @@
                     <div class="story-cover cover-placeholder" aria-hidden="true">📚</div>
                 {% endif %}
                 <div class="story-card-content">
+                    <span class="category-badge">{{ story.get_category_display }}</span>
                     <span class="age-badge">{{ story.get_age_group_display }}</span>
                     <h3>{{ story.title }}</h3>
                     <p>By {{ story.author }}</p>

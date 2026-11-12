@@ -12,6 +12,7 @@
             <div class="reading-cover cover-placeholder" aria-hidden="true">📚</div>
         {% endif %}
         <div class="reading-title">
+            <span class="category-badge category-{{ story.category }}">{{ story.get_category_display }}</span>
             <span class="age-badge">{{ story.get_age_group_display }}</span>
             <h1>{{ story.title }}</h1>
             <p>A story by {{ story.author }}</p>

@@ -4,8 +4,17 @@ from .models import Story
 
 
 def home(request):
-    stories = Story.objects.all().order_by('title')
-    return render(request, 'library/home.html', {'stories': stories})
+    selected_category = request.GET.get('category', 'all')
+    stories = Story.objects.all()
+    if selected_category in dict(Story.CATEGORY_CHOICES):
+        stories = stories.filter(category=selected_category)
+    else:
+        selected_category = 'all'
+    return render(request, 'library/home.html', {
+        'stories': stories.order_by('title'),
+        'categories': Story.CATEGORY_CHOICES,
+        'selected_category': selected_category,
+    })
 
 
 def story_detail(request, story_id):
