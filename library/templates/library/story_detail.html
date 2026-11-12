@@ -1,0 +1,23 @@
+{% extends 'library/base.html' %}
+
+{% block title %}{{ story.title }} | StoryNest{% endblock %}
+
+{% block content %}
+<article class="reading-page">
+    <a class="back-link" href="{% url 'library:home' %}">← Back to all stories</a>
+    <header class="reading-header">
+        {% if story.cover_image %}
+            <img class="reading-cover" src="{{ story.cover_image.url }}" alt="Cover for {{ story.title }}">
+        {% else %}
+            <div class="reading-cover cover-placeholder" aria-hidden="true">📚</div>
+        {% endif %}
+        <div class="reading-title">
+            <span class="age-badge">{{ story.get_age_group_display }}</span>
+            <h1>{{ story.title }}</h1>
+            <p>A story by {{ story.author }}</p>
+        </div>
+    </header>
+    <div class="story-text">{{ story.content|linebreaks }}</div>
+    <a class="finish-link" href="{% url 'library:home' %}">Pick another story <span aria-hidden="true">→</span></a>
+</article>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fff9ed">
+    <title>{% block title %}StoryNest{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'library/styles.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="{% url 'library:home' %}" aria-label="StoryNest home">
+            <span class="brand-icon" aria-hidden="true">✦</span> StoryNest
+        </a>
+        <span class="header-note">Little stories, big adventures</span>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="site-footer">Made for curious little readers <span aria-hidden="true">♥</span></footer>
+</body>
+</html>

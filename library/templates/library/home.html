@@ -1,0 +1,49 @@
+{% extends 'library/base.html' %}
+
+{% block title %}StoryNest | Pick an adventure{% endblock %}
+
+{% block content %}
+<section class="welcome">
+    <p class="eyebrow">YOUR NEXT ADVENTURE STARTS HERE</p>
+    <h1>Once upon a time...</h1>
+    <p class="welcome-copy">Find a cozy spot and pick a story to explore!</p>
+</section>
+
+<section class="library-section" aria-labelledby="stories-heading">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">THE STORY SHELF</p>
+            <h2 id="stories-heading">Choose a story</h2>
+        </div>
+        <span class="story-count">{{ stories|length }} story{{ stories|length|pluralize }}</span>
+    </div>
+
+    {% if stories %}
+    <div class="story-grid">
+        {% for story in stories %}
+        <article class="story-card">
+            <a class="story-link" href="{% url 'library:story_detail' story.id %}">
+                {% if story.cover_image %}
+                    <img class="story-cover" src="{{ story.cover_image.url }}" alt="Cover for {{ story.title }}">
+                {% else %}
+                    <div class="story-cover cover-placeholder" aria-hidden="true">📚</div>
+                {% endif %}
+                <div class="story-card-content">
+                    <span class="age-badge">{{ story.get_age_group_display }}</span>
+                    <h3>{{ story.title }}</h3>
+                    <p>By {{ story.author }}</p>
+                    <span class="read-button">Read this story <span aria-hidden="true">→</span></span>
+                </div>
+            </a>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-shelf">
+        <span class="empty-icon" aria-hidden="true">📖</span>
+        <h3>The story shelf is waiting!</h3>
+        <p>Add your first story in the Django admin and it will appear here.</p>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
