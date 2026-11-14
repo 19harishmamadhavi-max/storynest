@@ -19,4 +19,14 @@ def home(request):
 
 def story_detail(request, story_id):
     story = get_object_or_404(Story, pk=story_id)
-    return render(request, 'library/story_detail.html', {'story': story})
+    pages = list(story.pages.all())
+    if not pages:
+        pages = [
+            {'page_number': page_number, 'text': text.strip()}
+            for page_number, text in enumerate(story.content.splitlines(), start=1)
+            if text.strip()
+        ]
+    return render(request, 'library/story_detail.html', {
+        'story': story,
+        'pages': pages,
+    })

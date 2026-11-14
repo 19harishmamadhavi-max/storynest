@@ -25,6 +25,6 @@ urlpatterns = [
     path('', include('library.urls')),
 ]
 
-# Make uploaded cover images available while developing locally.
+# Make uploaded story images available while developing locally.
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

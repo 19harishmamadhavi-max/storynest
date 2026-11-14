@@ -7,7 +7,7 @@
     <a class="back-link" href="{% url 'library:home' %}">← Back to all stories</a>
     <header class="reading-header">
         {% if story.cover_image %}
-            <img class="reading-cover" src="{{ story.cover_image.url }}" alt="Cover for {{ story.title }}">
+            <img class="reading-cover" src="{{ story.cover_image.url }}" alt="Cover for {{ story.title }}" loading="lazy">
         {% else %}
             <div class="reading-cover cover-placeholder" aria-hidden="true">📚</div>
         {% endif %}
@@ -18,7 +18,17 @@
             <p>A story by {{ story.author }}</p>
         </div>
     </header>
-    <div class="story-text">{{ story.content|linebreaks }}</div>
+    <div class="story-pages">
+        {% for page in pages %}
+        <section class="story-page" aria-label="Page {{ page.page_number }}">
+            <p class="story-page-number">Page {{ page.page_number }}</p>
+            {% if page.image %}
+                <img class="story-page-image" src="{{ page.image.url }}" alt="Illustration for page {{ page.page_number }}" loading="lazy">
+            {% endif %}
+            <div class="story-text">{{ page.text|linebreaks }}</div>
+        </section>
+        {% endfor %}
+    </div>
     <a class="finish-link" href="{% url 'library:home' %}">Pick another story <span aria-hidden="true">→</span></a>
 </article>
 {% endblock %}

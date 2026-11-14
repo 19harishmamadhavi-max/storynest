@@ -1,24 +1,33 @@
 {% extends 'library/base.html' %}
+{% load static %}
 
 {% block title %}StoryNest | Pick an adventure{% endblock %}
 
 {% block content %}
-<section class="welcome">
-    <p class="eyebrow">YOUR NEXT ADVENTURE STARTS HERE</p>
-    <h1>Once upon a time...</h1>
-    <p class="welcome-copy">Find a cozy spot and pick a story to explore!</p>
-    <div class="welcome-animation" hidden aria-label="Welcome to StoryNest">
-        <span class="animation-title">StoryNest</span>
-        <span class="nest" aria-hidden="true">🪺</span>
-        <span class="jumping-animal bunny" aria-hidden="true">🐰</span>
-        <span class="jumping-animal bear" aria-hidden="true">🐻</span>
-        <span class="jumping-animal chick" aria-hidden="true">🐥</span>
-        <span class="jumping-animal fox" aria-hidden="true">🦊</span>
-        <button class="skip-animation" type="button">Skip</button>
+<section class="welcome-splash" aria-labelledby="splash-title">
+    <img class="splash-art" src="{% static 'library/images/splash.jpg.jpg' %}" alt="" fetchpriority="high">
+    <div class="splash-copy">
+        <h1 id="splash-title">StoryNest</h1>
+        <p>Where little readers find big adventures.</p>
+        <button class="start-button" type="button" data-enter-shelf>Start Reading</button>
     </div>
 </section>
 
-<section class="library-section" aria-labelledby="stories-heading">
+<section class="hero-section" aria-labelledby="hero-title">
+    <img class="tree-decoration tree-left" src="{% static 'library/images/tree-left.jpg.jpg' %}" alt="" aria-hidden="true">
+    <img class="tree-decoration tree-right" src="{% static 'library/images/tree-left.jpg.jpg' %}" alt="" aria-hidden="true">
+    <div class="hero-banner">
+        <img class="hero-art" src="{% static 'library/images/hero.jpg.jpg' %}" alt="" fetchpriority="high">
+        <div class="hero-copy">
+            <p class="eyebrow">YOUR NEXT ADVENTURE STARTS HERE</p>
+            <h1 id="hero-title">A little story magic<br>goes a long way</h1>
+            <p class="welcome-copy">Find a cozy spot and pick a story to explore.</p>
+            <a class="hero-button" href="#story-shelf">Find your story <span aria-hidden="true">↓</span></a>
+        </div>
+    </div>
+</section>
+
+<section class="library-section" id="story-shelf" aria-labelledby="stories-heading">
     <div class="section-heading">
         <div>
             <p class="eyebrow">THE STORY SHELF</p>
@@ -29,10 +38,15 @@
 
     <nav class="category-filters" aria-label="Filter stories by category">
         <a class="filter-button filter-all{% if selected_category == 'all' %} is-selected{% endif %}"
-           href="{% url 'library:home' %}"{% if selected_category == 'all' %} aria-current="page"{% endif %}>All</a>
+           href="{% url 'library:home' %}"{% if selected_category == 'all' %} aria-current="page"{% endif %}><span aria-hidden="true">✨</span> All stories</a>
         {% for value, label in categories %}
         <a class="filter-button filter-{{ value }}{% if selected_category == value %} is-selected{% endif %}"
-           href="{% url 'library:home' %}?category={{ value }}"{% if selected_category == value %} aria-current="page"{% endif %}>{{ label }}</a>
+           href="{% url 'library:home' %}?category={{ value }}"{% if selected_category == value %} aria-current="page"{% endif %}>
+            {% if value == 'moral' %}<span aria-hidden="true">💛</span>
+            {% elif value == 'fiction' %}<span aria-hidden="true">🪄</span>
+            {% else %}<span aria-hidden="true">🏡</span>{% endif %}
+            {{ label }}
+        </a>
         {% endfor %}
     </nav>
 
@@ -42,9 +56,9 @@
         <article class="story-card category-{{ story.category }}">
             <a class="story-link" href="{% url 'library:story_detail' story.id %}">
                 {% if story.cover_image %}
-                    <img class="story-cover" src="{{ story.cover_image.url }}" alt="Cover for {{ story.title }}">
+                    <img class="story-cover" src="{{ story.cover_image.url }}" alt="Cover for {{ story.title }}" loading="lazy">
                 {% else %}
-                    <div class="story-cover cover-placeholder" aria-hidden="true">📚</div>
+                    <img class="story-cover" src="{% static 'library/images/cover-moral.jpg.jpg' %}" alt="" loading="lazy">
                 {% endif %}
                 <div class="story-card-content">
                     <span class="category-badge">{{ story.get_category_display }}</span>

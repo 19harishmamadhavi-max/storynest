@@ -27,3 +27,16 @@ class Story(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class StoryPage(models.Model):
+    story = models.ForeignKey(Story, on_delete=models.CASCADE, related_name='pages')
+    page_number = models.PositiveIntegerField()
+    text = models.TextField()
+    image = models.ImageField(upload_to='story_pages/', blank=True)
+
+    class Meta:
+        ordering = ('page_number',)
+
+    def __str__(self):
+        return '{} - Page {}'.format(self.story.title, self.page_number)

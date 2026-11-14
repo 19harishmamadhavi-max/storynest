@@ -4,53 +4,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#a9ddff">
+    <meta name="theme-color" content="#081b2c">
     <title>{% block title %}StoryNest{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'library/styles.css' %}">
+    {% if request.resolver_match.url_name == 'home' %}
+    <script>
+        (() => {
+            const key = 'storynest-welcome-played';
+            if (sessionStorage.getItem(key)) {
+                document.documentElement.classList.add('welcome-seen');
+            } else {
+                sessionStorage.setItem(key, 'true');
+                document.documentElement.classList.add('welcome-active');
+            }
+        })();
+    </script>
+    {% endif %}
 </head>
 <body>
     <div class="sky-decorations" aria-hidden="true">
-        <span class="cloud cloud-one">☁</span>
-        <span class="cloud cloud-two">☁</span>
-        <span class="sky-star star-one">✦</span>
-        <span class="sky-star star-two">✧</span>
-        <span class="sky-bubble bubble-one"></span>
-        <span class="sky-bubble bubble-two"></span>
-        <span class="sky-bubble bubble-three"></span>
+        <span class="firefly firefly-one"></span>
+        <span class="firefly firefly-two"></span>
+        <span class="firefly firefly-three"></span>
+        <span class="firefly firefly-four"></span>
+        <span class="firefly firefly-five"></span>
+        <span class="sky-sparkle sparkle-one">✦</span>
+        <span class="sky-sparkle sparkle-two">✧</span>
     </div>
     <header class="site-header">
         <a class="brand" href="{% url 'library:home' %}" aria-label="StoryNest home">
             <span class="brand-icon" aria-hidden="true">✦</span> StoryNest
-            <span class="brand-animals" aria-hidden="true">🐰 🐻 🐥 🦊</span>
         </a>
-        <span class="header-note">Little stories, big adventures</span>
+        <span class="header-note">A little forest full of big adventures</span>
     </header>
     <main>
         {% block content %}{% endblock %}
     </main>
-    <div class="grass-hills" aria-hidden="true"></div>
-    <footer class="site-footer">Made for curious little readers <span aria-hidden="true">♥</span></footer>
+    <footer class="site-footer">Made for curious little readers <span aria-hidden="true">✦</span></footer>
     <script>
         (() => {
-            const scene = document.querySelector('.welcome-animation');
-            if (!scene) return;
-            const key = 'storynest-welcome-played';
-            const skip = scene.querySelector('.skip-animation');
+            const splash = document.querySelector('.welcome-splash');
+            if (!splash || !document.documentElement.classList.contains('welcome-active')) return;
+            const shelf = document.querySelector('#story-shelf');
+            let hasStarted = false;
+            let autoAdvance;
             const finish = () => {
-                scene.hidden = true;
-                document.body.classList.add('welcome-finished');
+                if (hasStarted) return;
+                hasStarted = true;
+                document.documentElement.classList.add('welcome-transitioning');
+                splash.addEventListener('transitionend', (event) => {
+                    if (event.target !== splash || event.propertyName !== 'opacity') return;
+                    document.documentElement.classList.remove('welcome-active', 'welcome-transitioning');
+                    document.documentElement.classList.add('welcome-seen');
+                    splash.hidden = true;
+                    if (shelf) {
+                        window.requestAnimationFrame(() => {
+                            const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+                                ? 'auto'
+                                : 'smooth';
+                            shelf.scrollIntoView({ behavior, block: 'start' });
+                        });
+                    }
+                }, { once: true });
             };
-            if (sessionStorage.getItem(key) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                finish();
-                return;
-            }
-            sessionStorage.setItem(key, 'true');
-            document.body.classList.add('welcome-running');
-            const timer = window.setTimeout(finish, 3200);
-            skip.addEventListener('click', () => {
-                window.clearTimeout(timer);
-                finish();
-            }, { once: true });
+            splash.querySelectorAll('[data-enter-shelf]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    window.clearTimeout(autoAdvance);
+                    finish();
+                }, { once: true });
+            });
+            autoAdvance = window.setTimeout(finish, 6000);
         })();
     </script>
 </body>
