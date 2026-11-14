@@ -7,6 +7,9 @@
     <meta name="theme-color" content="#081b2c">
     <title>{% block title %}StoryNest{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'library/styles.css' %}">
+    {% if request.resolver_match.url_name == 'story_detail' %}
+    <link rel="stylesheet" href="{% static 'library/js/page-flip.css' %}">
+    {% endif %}
     {% if request.resolver_match.url_name == 'home' %}
     <script>
         (() => {

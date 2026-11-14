@@ -1,4 +1,5 @@
 {% extends 'library/base.html' %}
+{% load static %}
 
 {% block title %}{{ story.title }} | StoryNest{% endblock %}
 
@@ -18,17 +19,42 @@
             <p>A story by {{ story.author }}</p>
         </div>
     </header>
-    <div class="story-pages">
-        {% for page in pages %}
-        <section class="story-page" aria-label="Page {{ page.page_number }}">
-            <p class="story-page-number">Page {{ page.page_number }}</p>
-            {% if page.image %}
-                <img class="story-page-image" src="{{ page.image.url }}" alt="Illustration for page {{ page.page_number }}" loading="lazy">
-            {% endif %}
-            <div class="story-text">{{ page.text|linebreaks }}</div>
-        </section>
+    <section class="story-reader" data-page-reader aria-label="Story reader">
+        <div class="reader-settings">
+            <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false">Mute sound</button>
+            <span class="reader-hint">Click or drag a page corner, use the arrows, or swipe on a phone.</span>
+        </div>
+        <div class="book-leather">
+            <div class="book-spread" data-book-spread>
+                <div class="page-flip-host" data-page-flip aria-label="Open book">
+        {% for page in book_pages %}
+            <article class="book-page{% if page.kind == 'illustration' %} book-page-illustration{% else %} book-page-text{% endif %}"
+                     aria-label="Page {{ page.page_number }}">
+                {% if page.kind == 'illustration' %}
+                    <img class="book-page-image" src="{{ page.image.url }}" alt="Illustration for page {{ page.page_number }}">
+                    <span class="paper-page-number" aria-hidden="true">{{ page.page_number }}</span>
+                {% else %}
+                    <span class="paper-page-number">Page {{ page.page_number }}</span>
+                    <div class="book-page-copy">{{ page.text|linebreaks }}</div>
+                {% endif %}
+            </article>
         {% endfor %}
-    </div>
+                </div>
+                <span class="book-spine-shadow" aria-hidden="true"></span>
+            </div>
+        </div>
+        <nav class="page-controls" aria-label="Story pages">
+            <button class="page-control" type="button" data-page-back disabled>← Back</button>
+            <p class="page-counter" data-page-counter aria-live="polite">Page 1 of {{ book_pages|length }}</p>
+            <button class="page-control" type="button" data-page-next{% if book_pages|length == 1 %} disabled{% endif %}>Next →</button>
+        </nav>
+        <p class="reader-error" data-reader-error role="alert" hidden>The book could not be opened. Please reload the page and try again.</p>
+        <audio data-page-turn-sound preload="auto">
+            <source src="{% static 'library/sounds/page-flip.mp3' %}" type="audio/mpeg">
+        </audio>
+    </section>
     <a class="finish-link" href="{% url 'library:home' %}">Pick another story <span aria-hidden="true">→</span></a>
 </article>
+<script src="{% static 'library/js/page-flip.browser.js' %}" defer></script>
+<script src="{% static 'library/story_reader.js' %}" defer></script>
 {% endblock %}

@@ -3,6 +3,50 @@ from django.shortcuts import get_object_or_404, render
 from .models import Story
 
 
+def _split_story_into_pages(content, max_page_length=500):
+    pages = []
+    current_page = ''
+    for paragraph in content.splitlines():
+        words = paragraph.split()
+        for word in words:
+            if current_page and len(current_page) + len(word) + 1 > max_page_length:
+                pages.append(current_page)
+                current_page = ''
+            current_page = '{} {}'.format(current_page, word).strip()
+        if current_page:
+            pages.append(current_page)
+            current_page = ''
+    if current_page:
+        pages.append(current_page)
+    return pages
+
+
+def _build_book_pages(story_pages):
+    book_pages = []
+    for story_page in story_pages:
+        image = story_page.get('image') if isinstance(story_page, dict) else story_page.image
+        text = story_page.get('text', '') if isinstance(story_page, dict) else story_page.text
+        if image:
+            book_pages.append({
+                'kind': 'illustration',
+                'image': image,
+                'page_number': len(book_pages) + 1,
+            })
+        if text.strip():
+            book_pages.append({
+                'kind': 'text',
+                'text': text,
+                'page_number': len(book_pages) + 1,
+            })
+    if not book_pages:
+        book_pages.append({
+            'kind': 'text',
+            'text': 'This story does not have any pages yet.',
+            'page_number': 1,
+        })
+    return book_pages
+
+
 def home(request):
     selected_category = request.GET.get('category', 'all')
     stories = Story.objects.all()
@@ -22,11 +66,10 @@ def story_detail(request, story_id):
     pages = list(story.pages.all())
     if not pages:
         pages = [
-            {'page_number': page_number, 'text': text.strip()}
-            for page_number, text in enumerate(story.content.splitlines(), start=1)
-            if text.strip()
+            {'text': text}
+            for page_number, text in enumerate(_split_story_into_pages(story.content), start=1)
         ]
     return render(request, 'library/story_detail.html', {
         'story': story,
-        'pages': pages,
+        'book_pages': _build_book_pages(pages),
     })

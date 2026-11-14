@@ -52,6 +52,11 @@ class StoryPageTests(TestCase):
         self.assertContains(response, 'Milo the mouse')
         self.assertContains(response, 'Ages 6-7')
         self.assertContains(response, 'Page 1')
+        self.assertContains(response, 'Page 1 of 1')
+        self.assertContains(response, 'data-page-flip')
+        self.assertContains(response, 'page-flip.browser.js')
+        self.assertContains(response, 'library/sounds/page-flip.mp3')
+        self.assertContains(response, 'library/story_reader.js')
 
     def test_story_without_pages_splits_content_into_passages(self):
         self.story.content = (
@@ -68,6 +73,19 @@ class StoryPageTests(TestCase):
         self.assertLess(content.index('Page 1'), content.index('The race began.'))
         self.assertLess(content.index('Page 2'), content.index('The hare took a nap'))
         self.assertLess(content.index('Page 3'), content.index('Slow and steady won.'))
+        self.assertEqual(content.count('<article class="book-page book-page-text"'), 3)
+
+    def test_story_without_page_breaks_splits_long_paragraphs_into_readable_pages(self):
+        sentences = ['A little fox found a blue pebble.'] * 40
+        self.story.content = ' '.join(sentences)
+        self.story.save()
+
+        response = self.client.get('/stories/{}/'.format(self.story.pk))
+        content = response.content.decode()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(content.count('<article class="book-page book-page-text"'), 3)
+        self.assertContains(response, 'Page 1 of 3')
 
     def test_story_pages_are_displayed_in_page_number_order(self):
         StoryPage.objects.create(
@@ -79,12 +97,17 @@ class StoryPageTests(TestCase):
             story=self.story,
             page_number=1,
             text='The mouse found a star.',
+            image='story_pages/lion-1.jpg',
         )
 
         response = self.client.get('/stories/{}/'.format(self.story.pk))
         content = response.content.decode()
 
         self.assertLess(content.index('The mouse found a star.'), content.index('The mouse went home.'))
+        self.assertContains(response, '/media/story_pages/lion-1.jpg')
+        self.assertContains(response, 'Page 1 of 3')
+        self.assertLess(content.index('/media/story_pages/lion-1.jpg'), content.index('The mouse found a star.'))
+        self.assertEqual(content.count('<article class="book-page'), 3)
         self.assertNotContains(response, 'Milo the mouse')
 
     def test_missing_story_returns_not_found(self):
