@@ -57,8 +57,8 @@ WSGI_APPLICATION = "config.wsgi.application"
 # ---------- Database ----------
 # Laptop: SQLite. Render: uses the DATABASE_URL environment variable (Neon).
 DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+    "default": dj_database_url.parse(
+        os.environ.get("DATABASE_URL") or f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=600,
     )
 }
