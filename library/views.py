@@ -49,11 +49,18 @@ def _build_book_pages(story_pages):
 
 def home(request):
     selected_category = request.GET.get('category', 'all')
+
     stories = Story.objects.all()
+
+    print("TOTAL STORIES IN DATABASE:", Story.objects.count())
+    print("STORIES SENT TO HOME:", stories.count())
+    print("SELECTED CATEGORY:", selected_category)
+
     if selected_category in dict(Story.CATEGORY_CHOICES):
         stories = stories.filter(category=selected_category)
     else:
         selected_category = 'all'
+
     return render(request, 'library/home.html', {
         'stories': stories.order_by('title'),
         'categories': Story.CATEGORY_CHOICES,
