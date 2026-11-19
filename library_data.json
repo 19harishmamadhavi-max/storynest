@@ -1,0 +1,158 @@
+[
+{
+  "model": "library.story",
+  "pk": 1,
+  "fields": {
+    "title": "The Tortoise and the Hare",
+    "author": "Aesop",
+    "category": "moral",
+    "age_group": "4-5",
+    "content": "Once upon a time, a speedy hare laughed at a slow tortoise and bragged about how fast he could run. Tired of the teasing, the tortoise challenged the hare to a race.\r\nWhen the race began, the hare sprinted far ahead and decided to take a quick nap under a tree, confident he would easily win. Meanwhile, the tortoise never stopped walking, moving forward step by step. When the hare finally woke up, the tortoise had already crossed the finish line.\r\nMoral: Slow and steady wins the race.",
+    "cover_image": "story_covers/ChatGPT_Image_Jul_16_2026_03_13_03_PM.png"
+  }
+},
+{
+  "model": "library.story",
+  "pk": 2,
+  "fields": {
+    "title": "The Little Cloud Who Shared",
+    "author": "An original StoryNest tale",
+    "category": "moral",
+    "age_group": "4-5",
+    "content": "Pip the little cloud carried a pocketful of rain. Below, a thirsty garden drooped in the sunshine. Pip shared a gentle shower, and the flowers lifted their bright faces. A rainbow appeared, and Pip felt brighter too. Sharing made the whole sky happier.",
+    "cover_image": ""
+  }
+},
+{
+  "model": "library.story",
+  "pk": 3,
+  "fields": {
+    "title": "The Lantern for Leo",
+    "author": "An original StoryNest tale",
+    "category": "moral",
+    "age_group": "6-7",
+    "content": "Leo found a glowing lantern on the path home. He wanted to keep its pretty light, but then he saw a neighbor searching in the dark. Leo carried the lantern over and helped her find the way. The lantern shone brightest when it helped someone.",
+    "cover_image": ""
+  }
+},
+{
+  "model": "library.story",
+  "pk": 4,
+  "fields": {
+    "title": "Mira and the Moon Garden",
+    "author": "An original StoryNest tale",
+    "category": "fiction",
+    "age_group": "6-7",
+    "content": "One night, Mira followed a silver moth through her garden gate. On the other side, moonflowers chimed like tiny bells and a sleepy dragon guarded a pond of stars. Mira helped the dragon return a fallen star to the sky, then followed the moth home before breakfast.",
+    "cover_image": ""
+  }
+},
+{
+  "model": "library.story",
+  "pk": 5,
+  "fields": {
+    "title": "The Pocket-Sized Planet",
+    "author": "An original StoryNest tale",
+    "category": "fiction",
+    "age_group": "8-10",
+    "content": "While building a cardboard rocket, Jun found a tiny blue planet in his coat pocket. Its little people needed a bridge over a crater. Jun folded a paper strip, and the tiny explorers cheered. That night, he set the planet on his windowsill so it could watch the real stars.",
+    "cover_image": ""
+  }
+},
+{
+  "model": "library.story",
+  "pk": 6,
+  "fields": {
+    "title": "Sunday Pancake Team",
+    "author": "An original StoryNest tale",
+    "category": "family",
+    "age_group": "4-5",
+    "content": "Every Sunday, Nia made pancakes with her family. Dad mixed, Grandma flipped, and Nia chose the berries. The first pancake came out a little lopsided, so they all laughed and shared it. It tasted extra sweet because they made it together.",
+    "cover_image": ""
+  }
+},
+{
+  "model": "library.story",
+  "pk": 7,
+  "fields": {
+    "title": "The Big Backyard Campout",
+    "author": "An original StoryNest tale",
+    "category": "family",
+    "age_group": "8-10",
+    "content": "When a storm canceled their camping trip, Mateo's family built a blanket tent in the living room. They packed pretend trail mix, told silly stories, and listened to rain tapping the roof. Mateo discovered that an adventure did not need a faraway place; it just needed everyone together.",
+    "cover_image": ""
+  }
+},
+{
+  "model": "library.story",
+  "pk": 8,
+  "fields": {
+    "title": "The Lion and the Mouse",
+    "author": "Aesop's Fables",
+    "category": "moral",
+    "age_group": "6-7",
+    "content": "The Lion and the Mouse is a classic Aesop fable about how kindness is never wasted and that even the smallest creature can help the strongest. In the story, a mighty lion is sleeping in the forest when a tiny mouse accidentally wakes him up. Angry, the lion traps the mouse under his paw and prepares to eat him, but the mouse begs for his life and promises to repay the favor one day. Amused by the idea that such a small creature could ever help the king of the jungle, the lion laughs and lets him go. A few days later, the lion gets trapped in a hunter's rope net and roars for help. Hearing his cries, the little mouse rushes over and uses his sharp teeth to gnaw through the thick ropes, setting the lion free and proving that compassion and friendship matter far more than physical size.",
+    "cover_image": "story_covers/lion-1.jpg"
+  }
+},
+{
+  "model": "library.storypage",
+  "pk": 1,
+  "fields": {
+    "story": 8,
+    "page_number": 1,
+    "text": "On a quiet, sunny afternoon, a tiny brown mouse was scurrying across the leafy forest floor. He was in such a big hurry that he wasn't watching where he was going. Oops! He ran right over the nose of a giant, sleeping lion.",
+    "image": "story_pages/lion-1.jpg"
+  }
+},
+{
+  "model": "library.storypage",
+  "pk": 2,
+  "fields": {
+    "story": 8,
+    "page_number": 2,
+    "text": "The big lion woke up with a loud yawn and a grumpy growl. Before the mouse could run away, the lion slammed his heavy paw down and trapped the little creature underneath.",
+    "image": "story_pages/lion-2.jpg"
+  }
+},
+{
+  "model": "library.storypage",
+  "pk": 3,
+  "fields": {
+    "story": 8,
+    "page_number": 3,
+    "text": "“Please, mighty lion, let me go!” squeaked the frightened mouse. “If you spare me, I promise I will help you one day!” The lion laughed at the idea of such a tiny mouse helping him, but he felt kind and lifted his paw.",
+    "image": "story_pages/lion-3.jpg"
+  }
+},
+{
+  "model": "library.storypage",
+  "pk": 4,
+  "fields": {
+    "story": 8,
+    "page_number": 4,
+    "text": "The happy mouse waved a quick goodbye and scampered safely back to his hole. The lion stretched his legs and walked away into the trees, still chuckling to himself.",
+    "image": "story_pages/lion-4.jpg"
+  }
+},
+{
+  "model": "library.storypage",
+  "pk": 5,
+  "fields": {
+    "story": 8,
+    "page_number": 5,
+    "text": "A few days later, the lion was walking through the woods when he stepped right into a hunter’s trap. A thick rope net fell over him, tangling him up tight. He pulled, tugged, and roared loudly for help, but he could not break free.",
+    "image": "story_pages/lion-5.jpg"
+  }
+},
+{
+  "model": "library.storypage",
+  "pk": 6,
+  "fields": {
+    "story": 8,
+    "page_number": 6,
+    "text": "From far away, the little mouse heard the lion’s roars and rushed over to help. Nibble, nibble, nibble! He used his sharp little teeth to chew through the thick ropes until the lion was completely free. From that day on, the mighty lion and the tiny mouse became the very best of friends.",
+    "image": "story_pages/lion-6.jpg"
+  }
+}
+]
